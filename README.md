@@ -13,23 +13,23 @@ format for the [LaTeX Note Importer][latex-note-importer].
 
  * Definitions, theorems, and lemmas with names are treated basically the same:
   - Definitions of the following (amsthm) form:
-    ```tex
-    \begin{definition}[Name of Thing Being Defined]
-      Definition of term.
-    \end{definition}
-    ```
+```tex
+\begin{definition}[Name of Thing Being Defined]
+  Definition of term.
+\end{definition}
+```
   - Theorems with names:
-    ```tex
-    \begin{theorem}[Name of Theorem]
-      An important theorem.
-    \end{theorem}
-    ```
+```tex
+\begin{theorem}[Name of Theorem]
+  An important theorem.
+\end{theorem}
+```
   - Lemmas with names:
-    ```tex
-    \begin{lemma*}[Name of Lemma]
-      An important lemma.
-    \end{lemma*}
-    ```
+```tex
+\begin{lemma*}[Name of Lemma]
+  An important lemma.
+\end{lemma*}
+```
   where "What is the term/theorem/lemma 'Name of Term/Theorem/Lemma'?" will be
   on the front and the definition/theorem/lemma will be on the back.
  * Theorems, lemmas, and corrolaries of an if-then form with premises and a
