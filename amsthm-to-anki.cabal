@@ -1,0 +1,112 @@
+name:                amsthm-to-anki
+version:             0.1.0
+synopsis:            Translate math notes written with the amsthm package to Anki notecards.
+homepage:            https://github.com/siddharthist/amsthm-to-anki
+license:             MPL-2.0
+license-file:        LICENSE
+author:              siddharthist
+maintainer:          langston.barrett@gmail.com
+category:            Text
+build-type:          Simple
+cabal-version:       >=1.10
+
+executable amsthm-to-anki
+  main-is:             Main.hs
+  hs-source-dirs:      app, src
+  default-language:    Haskell2010
+  -- TODO: some of these should probably be "exposed"?
+  other-modules:       Extract,
+                      Types,
+                      Extract.DefinitionsTheoremsLemmas,
+                      Extract.Equations,
+                      Extract.Notes,
+                      Extract.Premises,
+                      Extract.Util
+  default-extensions:  Arrows,
+                       ApplicativeDo,
+                       DeriveGeneric,
+                       DeriveDataTypeable,
+                       ExplicitForAll,
+                       FlexibleContexts,
+                       FlexibleInstances,
+                       GADTs,
+                       GeneralizedNewtypeDeriving,
+                       MultiWayIf,
+                       MultiParamTypeClasses,
+                       NegativeLiterals,
+                       NoImplicitPrelude,
+                       NondecreasingIndentation,
+                       NumDecimals,
+                       OverloadedStrings,
+                       PartialTypeSignatures,
+                       ScopedTypeVariables,
+                       StandaloneDeriving,
+                       TypeOperators,
+                       UnicodeSyntax,
+                       Unsafe
+  build-depends:       base >=4.7 && <5.0,
+                       base-unicode-symbols,
+                       classy-prelude,
+                       extensible-effects >= 1.11 && <2.0,
+                       HaTeX >=3.0 && <4.0,
+                       optparse-applicative
+
+Test-Suite tests
+  default-language:    Haskell2010
+  main-is:             Test.hs
+  hs-source-dirs:      test, src
+  type:                exitcode-stdio-1.0
+  -- -modules sections copied from above
+  other-modules:       Extract,
+                      Types,
+                      Extract.DefinitionsTheoremsLemmas,
+                      Extract.Equations,
+                      Extract.Notes,
+                      Extract.Premises,
+                      Extract.Util,
+                      -- for tests
+                      Test.DefinitionsTheoremsLemmas,
+                      Test.Equations,
+                      Test.Extract,
+                      Test.Notes,
+                      Test.Premises,
+                      Test.Util
+  default-extensions:  Arrows,
+                       ApplicativeDo,
+                       DeriveDataTypeable,
+                       DeriveGeneric,
+                       ExplicitForAll,
+                       FlexibleContexts,
+                       FlexibleInstances,
+                       GADTs,
+                       GeneralizedNewtypeDeriving,
+                       MultiWayIf,
+                       MultiParamTypeClasses,
+                       NegativeLiterals,
+                       NoImplicitPrelude,
+                       NondecreasingIndentation,
+                       NumDecimals,
+                       OverloadedStrings,
+                       PartialTypeSignatures,
+                       ScopedTypeVariables,
+                       StandaloneDeriving,
+                       TypeOperators,
+                       UnicodeSyntax
+                       Unsafe
+  build-depends:       base >=4.7 && <5.0,
+                       -- dependencies for tests themselves
+                       HUnit >1.2 && <2.0,
+                       QuickCheck >2.5 && <3.0,
+                       tasty >0.10 && < 1.0,
+                       tasty-hunit >0.8 && <1.0,
+                       tasty-quickcheck >0.8 && <1.0,
+                       tasty-golden >2.0 && <3.0,
+                       -- copied from above
+                       base-unicode-symbols,
+                       classy-prelude,
+                       extensible-effects >= 1.11 && <2.0,
+                       HaTeX >=3.0 && <4.0
+
+source-repository head
+  type:                git
+  location:            https://github.com/siddharthist/amsthm-to-anki
