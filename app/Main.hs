@@ -5,16 +5,15 @@
 -- Maintainer  :  siddharthist
 --
 -- Just a basic lib for Anki translation.
+
+-- "import safe" is enforced.
+{-# LANGUAGE Unsafe #-} -- "import safe" is enforced
 module Main where
 
--- Prelude
 import ClassyPrelude hiding ((<>), lift)
-import Prelude.Unicode
-
--- Imported modules
 import safe Control.Eff
-import safe Control.Eff.Writer.Strict
 import safe Control.Eff.Lift
+import safe Control.Eff.Writer.Strict
 import safe Data.Data (Data)
 import safe Data.OpenUnion (SetMember)
 import safe Data.Typeable (Typeable)
@@ -26,32 +25,33 @@ import Text.LaTeX.Base.Parser (parseLaTeX)
 import Extract
 import Types
 
-description ∷ String
+description :: String
 description = "Translate my math notes into flashcards"
 
 data Options where
-  Options ∷ { inputPath ∷ String, outputPath ∷ String } → Options
-  deriving (Data, Eq, Generic, Show, Typeable)
+        Options :: {inputPath :: String, outputPath :: String} -> Options
+    deriving (Data, Eq, Generic, Show, Typeable)
 
-optParser ∷ Parser Options
-optParser = Options <$> argument str (metavar "INPUT")
-                   <*> argument str (metavar "OUTPUT")
+optParser :: Parser Options
+optParser =
+  Options <$> argument str (metavar "INPUT") <*> argument str (metavar "OUTPUT")
 
-main ∷ IO ()
+main :: IO ()
 main = do
-  opts ← execParser $ info (helper <*> optParser)
-                           (fullDesc <> progDesc description
-                           <> header "amsthm-to-anki")
-  content ← readFile (inputPath opts)
+  opts <-
+    execParser $
+    info
+      (helper <*> optParser)
+      (fullDesc <> progDesc description <> header "amsthm-to-anki")
+  content <- readFile (inputPath opts)
   case (parseLaTeX content) of
-    Right srcTeX →
-      let (logs ∷ [Log], (errs ∷ [Error], tex)) =
+    Right srcTeX ->
+      let (logs :: [Log], (errs :: [Error], tex)) =
             run (runMonoidWriter (textToNotecards srcTeX))
-      in do
-          putStrLn ("~~~ DEBUG/INFO LOG ~~~" ∷ Text)
-          mapM_ putStrLn (map showLog logs)
-          hPutStrLn stderr ("~~~ ERRORS ~~~" ∷ Text)
-          mapM_ (hPutStrLn stderr) (map showError errs)
-          renderFile (outputPath opts) tex
+      in do putStrLn ("~~~ DEBUG/INFO LOG ~~~" :: Text)
+            mapM_ putStrLn (map showLog logs)
+            hPutStrLn stderr ("~~~ ERRORS ~~~" :: Text)
+            mapM_ (hPutStrLn stderr) (map showError errs)
+            renderFile (outputPath opts) tex
     -- TODO: pretty-print?
-    Left err → putStrLn ("[ERROR] " ++ pack (show err))
+    Left err -> putStrLn ("[ERROR] " ++ pack (show err))

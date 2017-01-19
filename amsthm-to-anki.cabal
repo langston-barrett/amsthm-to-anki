@@ -42,10 +42,8 @@ executable amsthm-to-anki
                        ScopedTypeVariables,
                        StandaloneDeriving,
                        TypeOperators,
-                       UnicodeSyntax,
                        Unsafe
   build-depends:       base >=4.7 && <5.0,
-                       base-unicode-symbols,
                        classy-prelude,
                        extensible-effects >= 1.11 && <2.0,
                        HaTeX >=3.0 && <4.0,
@@ -91,7 +89,6 @@ Test-Suite tests
                        ScopedTypeVariables,
                        StandaloneDeriving,
                        TypeOperators,
-                       UnicodeSyntax
                        Unsafe
   build-depends:       base >=4.7 && <5.0,
                        -- dependencies for tests themselves
@@ -102,7 +99,6 @@ Test-Suite tests
                        tasty-quickcheck >0.8 && <1.0,
                        tasty-golden >2.0 && <3.0,
                        -- copied from above
-                       base-unicode-symbols,
                        classy-prelude,
                        extensible-effects >= 1.11 && <2.0,
                        HaTeX >=3.0 && <4.0

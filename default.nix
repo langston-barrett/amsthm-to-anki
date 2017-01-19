@@ -7,9 +7,10 @@ in with pkgs; stdenv.mkDerivation {
   name = "amsthm-to-anki";
   src = null;
   buildInputs = [
-    gcc                   # required to build GHC
-    git                   # stack needs this to fetch from github
-    gmp                   # required to build GHC
-    haskellPackages.stack # stack will handle the haskell packages
+    gcc                             # required to build GHC
+    git                             # stack needs this to fetch from github
+    gmp                             # required to build GHC
+    haskellPackages.hindent         # re-indent source code
+    haskellPackages.stack           # stack will handle the haskell packages
   ];
 }

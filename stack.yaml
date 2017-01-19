@@ -23,7 +23,7 @@ packages:
  - '.'
  # This commit derives Data, Generic, and Typeable instances for LaTeX
  - location:
-     git: git@github.com:siddharthist/HaTeX
+     git: http://github.com/siddharthist/HaTeX
      commit: a263b4208f37d833dcf3d643f4c1a51ffcefe1d1
    extra-dep: true
 
