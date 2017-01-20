@@ -45,7 +45,6 @@ assertJust m = True @=? Maybe.isJust m
 -- | Things that can be compared by constructor
 -- The OVERLAP pragma is used instead of the OverlappingInstances language
 -- extension.
--- {-# OVERLAP #-}
 class Constrable a where
   constr :: a -> Constr
 
@@ -62,9 +61,9 @@ instance Constrable a =>
 
 -- | Assert that a piece of data uses a certain constructor
 (=|=)
-  :: forall a.
-     (Constrable a)
-  => a -> a -> HU.Assertion
+  :: forall a b.
+     (Constrable a, Constrable b)
+  => a -> b -> HU.Assertion
 x =|= y = constr x @=? constr y
 
 -- Some functions to construct text test cases. Basically low-budget HaTeX. If

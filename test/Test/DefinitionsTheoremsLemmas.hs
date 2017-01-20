@@ -22,6 +22,7 @@ import Text.LaTeX.Base.Syntax
 -- modules we will test
 import Extract.DefinitionsTheoremsLemmas
 import Extract.Util
+import Types
 
 -- TODO: find a home for these tests
 testLookForEnv :: TestTree
@@ -53,7 +54,7 @@ testDefinitionsTheoremsLemmas :: TestTree
 testDefinitionsTheoremsLemmas =
   testGroup "definitionsTheoremsLemmas" $
   [ HU.testCase "succeeds on empty string" $
-    [] =|= fst (definitionsTheoremsLemmas (TeXRaw ""))
+    ([] :: [Error]) =|= fst (definitionsTheoremsLemmas (TeXRaw ""))
   -- TODO
   -- , HU.testCase "fails on definition w/o name" $
   --   assertRight (definitionsTheoremsLemmas (TeXRaw ""))

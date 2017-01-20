@@ -46,18 +46,27 @@ testDescendTeX =
     ]
   ]
 
+testSplitEqEnv :: TestTree
+testSplitEqEnv =
+  testGroup "splitEqEnv" $
+  [ HU.testCase "fails on TeXEmpty" $
+    (Left undefined :: Either Error (Maybe LaTeX, LaTeX, LaTeX)) =|=
+    splitEqEnv ([], TeXEmpty)
+  -- TODO
+  ]
+
 testMakeEquationNote :: TestTree
 testMakeEquationNote =
   testGroup "makeEquationNote" $
   [ HU.testCase "empty note" $
     makeEquationNoteText "" "" "=" "" @=?
-    showNote (makeEquationNote (TeXRaw "", TeXRaw "", ""))
+    showNote (makeEquationNote (Nothing, TeXRaw "", ""))
   , HU.testCase "non-empty note" $
     makeEquationNoteText "" "" "a=" "a=b" @=?
-    showNote (makeEquationNote (TeXRaw "", TeXRaw "", "a=b"))
+    showNote (makeEquationNote (Nothing, TeXRaw "", "a=b"))
   , HU.testCase "note with setup" $
     makeEquationNoteText "" "setup" "x=" "x=y" @=?
-    showNote (makeEquationNote (TeXRaw "", TeXRaw "setup", "x=y"))
+    showNote (makeEquationNote (Nothing, TeXRaw "setup", "x=y"))
   ]
 
 testEquations :: TestTree
@@ -75,4 +84,4 @@ tests :: TestTree
 tests =
   testGroup
     "Equations"
-    [testDescendTeX, testMakeEquationNote, testEquations]
+    [testDescendTeX, testSplitEqEnv, testMakeEquationNote, testEquations]

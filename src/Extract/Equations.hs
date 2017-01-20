@@ -43,40 +43,45 @@ flattenTeX = descendTeX id
 -- environment.
 splitEqEnv :: ([TeXArg], LaTeX) -> Either Error (Maybe LaTeX, LaTeX, LaTeX)
 splitEqEnv (args, content) =
-  let name =
-        case args of
-          [OptArg name] -> Just name
-          _ -> Nothing
-      -- Is the piece of LaTeX an "equation" or "equation*"?
+  let isEquation :: LaTeX -> Bool
       isEquation tex =
         case tex of
           TeXEnv "equation" _ _ -> True
           TeXEnv "equation*" _ _ -> True
           _ -> False
-      -- The setup is everything _but_ the equation
-      setup = texmap isEquation (\_ -> TeXEmpty) content
-  in Left (PremisesWithoutConclusion TeXEmpty)
+  -- First, extract the inside of the equation (because this might fail,
+  -- and we'll have to throw a Left
+  in case (lookForEnvStar "equation" content) of
+       [(_, inside)] ->
+         Right
+           ( case args of
+               [OptArg name] -> Just name
+               _ -> Nothing
+           -- The setup is everything _but_ the equation
+           , texmap isEquation (\_ -> TeXEmpty) content
+           , inside)
+        -- TODO: better error messages
+       [] -> Left (UserError "No equation env in eqenv!")
+       _ -> Left (UserError "Too many equation(s) in eqenv!")
 
 -- | Create a valid Anki notecard from the arguments to an \\equation, after
 -- they've been checked for validity.
-makeEquationNote :: (LaTeX, LaTeX, Text) -> Notecard
-makeEquationNote (name, setup, equality) =
+makeEquationNote :: (Maybe LaTeX, LaTeX, Text) -> Notecard
+makeEquationNote (maybeName, setup, equality) =
   let firstHalf = takeWhile (/= '=') equality -- everything before "="
   in Notecard
      { front =
          setup <>
          (TeXEnv "equation*" [] $
-          if name /= TeXEmpty && name /= TeXRaw ""
-            then TeXSeq
-                   (TeXComm "tag" [FixArg name])
-                   (TeXRaw (firstHalf ++ "="))
-            else TeXRaw (firstHalf ++ "="))
+          case maybeName of
+            Just name ->
+              TeXSeq (TeXComm "tag" [FixArg name]) (TeXRaw (firstHalf ++ "="))
+            Nothing -> TeXRaw (firstHalf ++ "="))
      , back = setup <> TeXEnv "equation*" [] (TeXRaw equality)
      }
 
 equations :: LaTeX -> ([Error], [Notecard])
-equations = \_ -> ([], [])
---   let eqenvs = lookForEnvStar "eqenv"
---   in partitionEithers .
---      map (fmap makeEquationNote) .
---      map checkEquationArgs . lookForCommand "equation"
+equations tex =
+  let (errs, results) =
+        partitionEithers . map splitEqEnv . lookForEnvStar "eqenv" $ tex
+  in (errs, map (makeEquationNote . (\(a, b, c) -> (a, b, render c))) results)

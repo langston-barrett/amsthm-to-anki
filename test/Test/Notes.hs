@@ -45,7 +45,7 @@ testNotes :: TestTree
 testNotes =
   testGroup "notes" $
   -- read as "the errors (the first component of the tuple) are empty"
-  let noErrors = (=|= []) . fst . notes
+  let noErrors = (=|= ([] :: [Error])) . fst . notes
   in [ HU.testCase "succeeds on empty string" (noErrors (TeXRaw ""))
      , HU.testCase "succeeds on TeXEmpty" (noErrors TeXEmpty)
      , HU.testCase "fails on note without fields" $

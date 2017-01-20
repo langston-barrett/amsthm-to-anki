@@ -48,7 +48,7 @@ testTextToNotecards =
   -- tuple) are empty"
   let noErrors x =
         let (_ :: [Log], (errs, _)) = run (runMonoidWriter (textToNotecards x))
-        in [] =|= errs
+        in ([] :: [Error]) =|= errs
   in [ HU.testCase "succeeds on empty string" $ noErrors ""
      , HU.testCase "does fine on one def" $
        noErrors "\\begin{definition}[test]testdef\\end{definition}"

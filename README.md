@@ -154,6 +154,10 @@ Each module provides one method with the type
 moduleName ∷ LaTeX → ([Error], [Notecard])
 ```
 
+## TODO
+ 
+All of these things: http://taylor.fausak.me/2016/12/05/haskell-package-checklist/
+
 [amsthm]: http://www.ctan.org/pkg/amsthm
 [anki]: http://ankisrs.net/
 [latex-note-importer]: http://reh.math.uni-duesseldorf.de/~zibrowius/LatexNoteImporter/

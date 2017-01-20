@@ -94,7 +94,8 @@ testPremisesAndConclusion =
 testPremises :: TestTree
 testPremises =
   testGroup "premises" $
-  [ HU.testCase "succeeds on empty string" $ [] =|= fst (premises (TeXRaw ""))
+  [ HU.testCase "succeeds on empty string" $
+    ([] :: [Error]) =|= fst (premises (TeXRaw ""))
   , QC.testProperty "QC: empty on arbitrary latex blocks" $
     (== []) . snd . premises
   ]
