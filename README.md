@@ -7,6 +7,22 @@ the [`amsthm` package][amsthm]) into [Anki][anki] notecards. It converts things
 like definitions, theorems, lemmas, corrolaries, and equations into the input
 format for the [LaTeX Note Importer][latex-note-importer].
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
+**Table of Contents**
+
+- [amsthm-to-anki](#amsthm-to-anki)
+    - [What Does it Do?](#what-does-it-do)
+    - [Usage](#usage)
+        - [Setting up Anki](#setting-up-anki)
+        - [Setting up `amsthm` in your input document](#setting-up-amsthm-in-your-input-document)
+    - [Code Outline](#code-outline)
+        - [Libraries](#libraries)
+        - [Internal API](#internal-api)
+    - [TODO](#todo)
+
+<!-- markdown-toc end -->
+
+
 ## What Does it Do?
 
  * Definitions, theorems, and lemmas with names are treated basically the same:
@@ -70,7 +86,24 @@ format for the [LaTeX Note Importer][latex-note-importer].
 \end{note}
 ```
 
-## Setting up `amsthm`
+## Usage
+
+If `input.tex` is a LaTeX2e file with the above sorts of environments in it, you can just run 
+```
+./amsthm-to-anki input.tex output.tex
+```
+
+### Setting up Anki
+
+ 0. Make sure `pdflatex` is on your `PATH` (hint: it likely already is).
+ 1. Install the [LaTeX Note Importer][latex-note-importer].
+    See the Anki documentation for details on installing plugins.
+ 2. Ensure your LaTeX preamble is set how you like it: go to the "Add" screen.
+    Click on the big "Basic" button. Click "Manage", then select the first
+    "Basic" card type from the list, and click "Options". Adjust your LaTeX
+    preamble so that your notes will compile properly.
+
+### Setting up `amsthm` in your input document
 
 This is the setup I have in my document preamble:
 ```latex
@@ -155,7 +188,9 @@ moduleName ∷ LaTeX → ([Error], [Notecard])
 
 ## TODO
  
-All of these things: http://taylor.fausak.me/2016/12/05/haskell-package-checklist/
+ * All of these things: http://taylor.fausak.me/2016/12/05/haskell-package-checklist/
+ * Anki txt format
+ * Better error messages
 
 [amsthm]: http://www.ctan.org/pkg/amsthm
 [anki]: http://ankisrs.net/
