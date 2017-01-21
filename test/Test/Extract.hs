@@ -52,15 +52,6 @@ testTextToNotecards =
   in [ HU.testCase "succeeds on empty string" $ noErrors ""
      , HU.testCase "does fine on one def" $
        noErrors "\\begin{definition}[test]testdef\\end{definition}"
-  -- TODO
-  -- , testGroup "Golden"
-  --   [ GT.goldenVsFileDiff
-  --       "GT: 1"
-  --       (\gold out -> ["diff", gold, out])
-  --       "test/golden/1.golden.tex"
-  --       "test/golden/1.out.tex"
-  --       (inAndOut "test/golden/1.in.tex" "test/golden/1.out.tex")
-  --   ]
      ]
 
 tests :: TestTree

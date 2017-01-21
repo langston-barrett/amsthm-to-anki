@@ -5,7 +5,6 @@
 -- Maintainer  :  siddharthist
 --
 -- Test the Extract.Premises module.
--- TODO: test with first class patterns?
 module Test.Premises where
 
 -- Testing modules
