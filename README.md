@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/siddharthist/amsthm-to-anki.svg?branch=master)](https://travis-ci.org/siddharthist/amsthm-to-anki)
 
-Note: This project isn't finished (specifically the `Equation`) module doesn't behave as described). It will hit a real initial release within the next few days.
-
 This is a simple program to transform LaTeX math notes (written with
 the [`amsthm` package][amsthm]) into [Anki][anki] notecards. It converts things
 like definitions, theorems, lemmas, corrolaries, and equations into the input
@@ -58,7 +56,8 @@ format for the [LaTeX Note Importer][latex-note-importer].
 \begin{eqenv}
 ```
   where the setup and first half of the equation will be on the front side and the 
-  second half will be on the back side.
+  second half will be on the back side. Note that the "halves" are split on the
+  string `" = "`.
  * And things that are already notes will be kept:
 ```tex
 \begin{note}

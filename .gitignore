@@ -1,3 +1,7 @@
+tmp/
+test.sh
+
+# Haskell .gitignore
 dist
 dist-*
 cabal-dev

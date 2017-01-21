@@ -47,6 +47,8 @@ executable amsthm-to-anki
                        classy-prelude,
                        extensible-effects >= 1.11 && <2.0,
                        HaTeX >=3.0 && <4.0,
+                       split >=0.1 && <0.5,
+                       -- Just for the executable
                        optparse-applicative
 
 Test-Suite tests
@@ -101,7 +103,8 @@ Test-Suite tests
                        -- copied from above
                        classy-prelude,
                        extensible-effects >= 1.11 && <2.0,
-                       HaTeX >=3.0 && <4.0
+                       HaTeX >=3.0 && <4.0,
+                       split >=0.1 && <0.5
 
 source-repository head
   type:                git

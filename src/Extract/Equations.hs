@@ -14,6 +14,7 @@ module Extract.Equations where
 import ClassyPrelude hiding ((<>))
 import Text.LaTeX
 import Text.LaTeX.Base.Syntax
+import Data.List.Split (splitOn)
 
 -- My modules
 import Extract.Util
@@ -66,22 +67,30 @@ splitEqEnv (args, content) =
 
 -- | Create a valid Anki notecard from the arguments to an \\equation, after
 -- they've been checked for validity.
-makeEquationNote :: (Maybe LaTeX, LaTeX, Text) -> Notecard
+makeEquationNote :: (Maybe LaTeX, LaTeX, LaTeX) -> Either Error Notecard
 makeEquationNote (maybeName, setup, equality) =
-  let firstHalf = takeWhile (/= '=') equality -- everything before "="
-  in Notecard
-     { front =
-         setup <>
-         (TeXEnv "equation*" [] $
-          case maybeName of
-            Just name ->
-              TeXSeq (TeXComm "tag" [FixArg name]) (TeXRaw (firstHalf ++ "="))
-            Nothing -> TeXRaw (firstHalf ++ "="))
-     , back = setup <> TeXEnv "equation*" [] (TeXRaw equality)
-     }
+  case splitOn " = " (unpack . render $ equality) of
+    [firstHalf, _] ->
+      Right $
+      Notecard
+      { front =
+          setup <>
+          (TeXEnv "equation*" [] $
+           case maybeName of
+             Just name ->
+               TeXSeq
+                 (TeXComm "tag" [FixArg name])
+                 (TeXRaw (pack $ firstHalf ++ " = "))
+             Nothing -> TeXRaw (pack $ firstHalf ++ " = "))
+      , back = setup <> TeXEnv "equation*" [] equality
+      }
+    -- TODO: better errors
+    x -> Left (CouldntSplitEquality x)
 
+-- TODO: improve naming, etc
 equations :: LaTeX -> ([Error], [Notecard])
 equations tex =
-  let (errs, results) =
+  let (errs1, results1) =
         partitionEithers . map splitEqEnv . lookForEnvStar "eqenv" $ tex
-  in (errs, map (makeEquationNote . (\(a, b, c) -> (a, b, render c))) results)
+      (errs2, results2) = partitionEithers . map makeEquationNote $ results1
+  in (errs1 ++ errs2, results2)

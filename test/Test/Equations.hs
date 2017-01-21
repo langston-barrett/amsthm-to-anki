@@ -24,12 +24,6 @@ import Text.LaTeX.Base.Syntax
 import Extract.Equations
 import Types
 
--- TODO: use name
-makeEquationNoteText :: Text -> Text -> Text -> Text -> Text
-makeEquationNoteText _ setup eq1 eq2 =
-  makeNoteText
-    (setup ++ makeEnvText "equation*" eq1)
-    (setup ++ makeEnvText "equation*" eq2)
 
 testDescendTeX :: TestTree
 testDescendTeX =
@@ -58,16 +52,22 @@ testSplitEqEnv =
 testMakeEquationNote :: TestTree
 testMakeEquationNote =
   testGroup "makeEquationNote" $
-  [ HU.testCase "empty note" $
-    makeEquationNoteText "" "" "=" "" @=?
-    showNote (makeEquationNote (Nothing, TeXRaw "", ""))
+  [ HU.testCase "fails on empty note" $
+    Left (ErrorStr "Splitting the rendered equality failed [\"\"]") @=?
+    fmap showNote (makeEquationNote (Nothing, TeXRaw "", ""))
   , HU.testCase "non-empty note" $
-    makeEquationNoteText "" "" "a=" "a=b" @=?
-    showNote (makeEquationNote (Nothing, TeXRaw "", "a=b"))
+    Right (makeEquationNoteText "" "" "a = " "a = b") @=?
+    fmap showNote (makeEquationNote (Nothing, TeXRaw "", "a = b"))
   , HU.testCase "note with setup" $
-    makeEquationNoteText "" "setup" "x=" "x=y" @=?
-    showNote (makeEquationNote (Nothing, TeXRaw "setup", "x=y"))
+    Right (makeEquationNoteText "" "setup" "x = " "x = y") @=?
+    fmap showNote (makeEquationNote (Nothing, TeXRaw "setup", "x = y"))
   ]
+    -- TODO: use name
+  where
+    makeEquationNoteText _ setup eq1 eq2 =
+      makeNoteText
+        (setup ++ makeEnvText "equation*" eq1)
+        (setup ++ makeEnvText "equation*" eq2)
 
 testEquations :: TestTree
 testEquations =

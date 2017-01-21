@@ -48,10 +48,16 @@ main = do
     Right srcTeX ->
       let (logs :: [Log], (errs :: [Error], tex)) =
             run (runMonoidWriter (textToNotecards srcTeX))
-      in do putStrLn ("~~~ DEBUG/INFO LOG ~~~" :: Text)
-            mapM_ putStrLn (map showLog logs)
-            hPutStrLn stderr ("~~~ ERRORS ~~~" :: Text)
-            mapM_ (hPutStrLn stderr) (map showError errs)
-            renderFile (outputPath opts) tex
+      in do
+        -- Show debug log
+        when (logs /= []) $ do
+          putStrLn ("~~~ DEBUG/INFO LOG ~~~" :: Text)
+          mapM_ putStrLn (map showLog logs)
+
+        -- Show errors
+        when (errs /= []) $ do
+          hPutStrLn stderr ("~~~ ERRORS ~~~" :: Text)
+          mapM_ (hPutStrLn stderr) (map showError errs)
+          renderFile (outputPath opts) tex
     -- TODO: pretty-print?
     Left err -> putStrLn ("[ERROR] " ++ pack (show err))

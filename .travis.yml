@@ -1,2 +1,2 @@
 language: nix
-script: nix-shell --run 'stack build --ghc-options="-Wall -Werror" && stack test'
+script: nix-shell --run 'stack test'

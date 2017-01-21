@@ -50,21 +50,29 @@ data Error where
         PremisesWithoutConclusion :: LaTeX -> Error
         ConclusionWithoutPremises :: LaTeX -> Error
         EquationNoArguments :: Error
+        CouldntSplitEquality :: [[Char]] -> Error
     deriving (Data, Eq, Generic, Show, Typeable)
 
 -- | Turn an Error into a Text that can be shown to the user.
 showError :: Error -> Text
 showError e =
-  case e of
-    ErrorStr s -> "Generic error: " ++ s
-    UserError u -> "Error in the source LaTeX: " ++ pack (show u)
-    PremisesWithoutConclusion tex ->
-      "Encountered premises without conclusion: " ++
-      (render tex) ++ "With structure:\n" ++ (pack . show $ tex)
-    ConclusionWithoutPremises tex ->
-      "Encountered conclusion without premises: " ++
-      (render tex) ++ "With structure:\n" ++ (pack . show $ tex)
-    EquationNoArguments -> "\\equation command recieved no arguments"
+  let
+    texToText :: forall a. (Show a) => a -> Text
+    texToText = pack . show
+  in case e of
+       ErrorStr s -> "Generic error: " ++ s
+       UserError u -> "Error in the source LaTeX: " ++ u
+       PremisesWithoutConclusion tex ->
+         "Encountered premises without conclusion: " ++
+         (render tex) ++ "With structure:\n" ++ texToText tex
+       ConclusionWithoutPremises tex ->
+         "Encountered conclusion without premises: " ++
+         (render tex) ++ "With structure:\n" ++ texToText tex
+       EquationNoArguments -> "\\equation command recieved no arguments"
+       CouldntSplitEquality x ->
+         "Couldn't split equality into first and second halves. Note " ++
+         "that this requires the substring ' = ' to appear between the halves. " ++
+         texToText x
 
 -- Valid Anki notecard. For simplicity, we only consider the case with 2
 -- "faces".
