@@ -88,10 +88,12 @@ format for the [LaTeX Note Importer][latex-note-importer].
 
 ## Usage
 
-If `input.tex` is a LaTeX2e file with the above sorts of environments in it, you can just run 
+You can download binaries from [the tags page][tags]. Then if `input.tex` is a
+LaTeX2e file with the above sorts of environments in it, you can just run
 ```
 ./amsthm-to-anki input.tex output.tex
 ```
+and import `output.tex` with the [LaTeX Note Importer][latex-note-importer].
 
 ### Setting up Anki
 
@@ -99,9 +101,9 @@ If `input.tex` is a LaTeX2e file with the above sorts of environments in it, you
  1. Install the [LaTeX Note Importer][latex-note-importer].
     See the Anki documentation for details on installing plugins.
  2. Ensure your LaTeX preamble is set how you like it: go to the "Add" screen.
-    Click on the big "Basic" button. Click "Manage", then select the first
-    "Basic" card type from the list, and click "Options". Adjust your LaTeX
-    preamble so that your notes will compile properly.
+    Click on the "Basic" button. Click "Manage", then select the first "Basic"
+    card type from the list, and click "Options". Adjust your LaTeX preamble so
+    that your notes will compile properly.
 
 ### Setting up `amsthm` in your input document
 
@@ -188,7 +190,10 @@ moduleName ∷ LaTeX → ([Error], [Notecard])
 
 ## TODO
  
- * All of these things: http://taylor.fausak.me/2016/12/05/haskell-package-checklist/
+ * From: http://taylor.fausak.me/2016/12/05/haskell-package-checklist/
+   - Use hpack, not Cabal
+   - extra-source-files
+   - doctest
  * Anki txt format
  * Better error messages
 
@@ -197,3 +202,4 @@ moduleName ∷ LaTeX → ([Error], [Notecard])
 [latex-note-importer]: http://reh.math.uni-duesseldorf.de/~zibrowius/LatexNoteImporter/
 [extensible-effects]: https://hackage.haskell.org/package/extensible-effects
 [so]: http://stackoverflow.com/questions/25587501/test-if-a-value-matches-a-constructor
+[tags]: https://github.com/siddharthist/amsthm-to-anki/tags
