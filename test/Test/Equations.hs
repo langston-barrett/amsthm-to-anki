@@ -53,7 +53,7 @@ testMakeEquationNote :: TestTree
 testMakeEquationNote =
   testGroup "makeEquationNote" $
   [ HU.testCase "fails on empty note" $
-    Left (ErrorStr "Splitting the rendered equality failed [\"\"]") @=?
+    Left (CouldntSplitEquality [""]) @=?
     fmap showNote (makeEquationNote (Nothing, TeXRaw "", ""))
   , HU.testCase "non-empty note" $
     Right (makeEquationNoteText "" "" "a = " "a = b") @=?
