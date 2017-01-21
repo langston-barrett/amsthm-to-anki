@@ -1,2 +1,9 @@
 language: nix
 script: nix-shell --run 'stack test'
+deploy:
+  provider: releases
+  api_key:
+    secure: dBOtNzmEFFGzgogD9r9alo5wIIjyu952wUlaXSIwJZH2Jr+Iw8rO+wN9WImnfTGnuSnUHbo/ZMfcQIxLgwX2fwP8Wvzmu0bitVUqb6QdjKCy+ASJYVcKeCvRO3ma0r/TY0KF/P/y5nJqFVTWeSlPUhcU57wT5W0hAu5AgsNcpjU3HrzyW0n69XeFpnPfAInuWJgCEJ1KLnTxc0s9Oh/1A2UFhp+cg5HzRAgWKdNOiFSp8AR+6PBW09/ssdDywkG4HY34cAt1Ab65/n3FIyTBmJ0/Oq8CtqpcEN+UtVbBAVOMvFmUcJOakP+pjfL5zqkno26rxa4KUplDgOtkY8xsiuDhGbSfPdUj456ta/dNrf14GZvjon9J3f0k+Aw15Z7Y7eNIiKUh0qCydROqJlfQkuvgTLIUEDXyjGBBzDcH/KBOP29izfRQv4hVl+NszQd/zYVBa5/bnHSwLlFuqCr30lA8B4eGfnkquNgeWCgyjIrqM0FuUf/XozLxmSIh2AWyqFoVBj1FStSSXa76wTg6WG1qehS0Vaib1kqRJA7QmxiSjwWNX0GL1HO61uXVUantkbUr13Jiw1/xo0lMRqcKWtGqtxgR3jQsQwG2c6wG+x7pI/jSOvuMd614fG1D5PR1NzGJCpnb0d/7DgxNvO+Z2WcHNi7OtUU00u48l4GTrgQ=
+  file: ".stack-work/dist/x86_64-linux-nix/Cabal-1.24.0.0/build/amsthm-to-anki/amsthm-to-anki"
+  on:
+    repo: siddharthist/amsthm-to-anki
